@@ -11,8 +11,8 @@ type MainController struct {
 
 func (this *MainController) Index() {
 	this.Data["pageTitle"] = "note"
+	this.Layout = "layout/layout.html"
 	this.TplNames = "main/index.html"
-	//this.display()
 }
 
 // 获取系统时间

@@ -24,6 +24,7 @@ func NoteAdd(note *Note) (int64, error) {
 	if note.CreateTime == 0 {
 		note.CreateTime = time.Now().Unix()
 	}
+	return 1,nil
 	//return orm.NewOrm().Insert(note)
 }
 
@@ -35,5 +36,5 @@ func NoteGetList(page, pageSize int) ([]*Note, int64) {
 
 
 func NoteDel(id int) error {
-	return err
+	return nil
 }

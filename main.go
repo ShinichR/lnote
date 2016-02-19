@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/shinichr/lnote/app/controllers"
+	"github.com/ShinichR/lnote/app/controllers"
 	"html/template"
 	"net/http"
 )

@@ -4,8 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/go-mgo/mgo"
-	"github.com/go-mgo/mgo/bson"
-	"net/url"
+
 )
 type Base struct {
 	session *mgo.Session
@@ -15,19 +14,20 @@ const (
 )
 
 func (this *Base )Init() {
-	dbhost := beego.AppConfig.String("db.host")
-	dbport := beego.AppConfig.String("db.port")
-	dbuser := beego.AppConfig.String("db.user")
-	dbpassword := beego.AppConfig.String("db.password")
-	dbname := beego.AppConfig.String("db.name")
-	timezone := beego.AppConfig.String("db.timezone")
-	if dbport == "" {
+	//dbhost := beego.AppConfig.String("db.host")
+	//dbport := beego.AppConfig.String("db.port")
+	//dbuser := beego.AppConfig.String("db.user")
+	//dbpassword := beego.AppConfig.String("db.password")
+	//dbname := beego.AppConfig.String("db.name")
+	//timezone := beego.AppConfig.String("db.timezone")
+	/*if dbport == "" {
 		dbport = "27017"
-	}
+	}*/
 	
-	this.session, err := mgo.Dial(MONGOSERVER) //连接数据库
+	this.session, _ = mgo.Dial(MONGOSERVER) 
+	
 	this.session.SetMode(mgo.Monotonic, true)
-	db := this.session.DB("note")  //数据库名称
+	//db := this.session.DB("note") 
 	
 	if beego.AppConfig.String("runmode") == "dev" {
 		orm.Debug = true

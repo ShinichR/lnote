@@ -2,7 +2,7 @@ package controllers
 
 import (
 	//"github.com/astaxie/beego"
-	"github.com/shinichr/lnote/app/models"
+	"github.com/ShinichR/lnote/app/models"
 	//"strconv"
 	//"strings"
 	//"time"
@@ -13,7 +13,7 @@ type NoteController struct {
 }
 
 func (this *NoteController) List() {
-	result, count := models.NoteGetList(1, 10)
+	result ,_:= models.NoteGetList(1, 10)
 	this.Data["notes"] = result
 	this.display()
 }
