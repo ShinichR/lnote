@@ -4,16 +4,63 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/go-mgo/mgo"
+    	_"github.com/go-mgo/mgo/bson"
+    
 
 )
-type Base struct {
-	session *mgo.Session
-}
 const (
-	MONGOSERVER = "127.0.0.1:27017"
+	MONGOSERVER = "shinichr.eicp.net:28190"
 )
 
-func (this *Base )Init() {
+var session *mgo.Session
+var dbname  string
+var userdbname  string
+var id      int
+
+func Conn() *mgo.Session {
+	return session.Copy()
+}
+
+func Dbname() string {
+    if dbname == ""{
+        dbname =  beego.AppConfig.String("db.name") 
+    }
+	return dbname
+}
+
+func Userdbname() string {
+    if userdbname == ""{
+        userdbname =  "user" 
+    }
+	return userdbname
+}
+
+func Maxid() int{
+    var note Note
+    c := Conn().DB(Dbname()).C(Dbname())
+    num,_ := c.Count()
+    if num == 0 {
+	return 0	
+    }
+    c.Find(nil).Sort("-id").One(&note)
+    beego.Debug("maxid: ",note.Id)
+
+    return note.Id	
+}
+func MaxUserid() int{
+    var user User
+    c := Conn().DB(Dbname()).C(Userdbname())
+    num,_ := c.Count()
+    if num == 0 {
+	   return 0	
+    }
+    c.Find(nil).Skip(num - 1).One(&user)
+    beego.Debug("MaxUserid: ",user.Id)
+
+    return user.Id	
+}
+
+func init() {
 	//dbhost := beego.AppConfig.String("db.host")
 	//dbport := beego.AppConfig.String("db.port")
 	//dbuser := beego.AppConfig.String("db.user")
@@ -24,9 +71,13 @@ func (this *Base )Init() {
 		dbport = "27017"
 	}*/
 	
-	this.session, _ = mgo.Dial(MONGOSERVER) 
-	
-	this.session.SetMode(mgo.Monotonic, true)
+	sess, err := mgo.Dial(MONGOSERVER) 
+	if err != nil {
+        beego.Error("err in mongo dial")
+		panic(err)
+	}
+    session = sess
+	session.SetMode(mgo.Monotonic, true)
 	//db := this.session.DB("note") 
 	
 	if beego.AppConfig.String("runmode") == "dev" {
@@ -34,15 +85,7 @@ func (this *Base )Init() {
 	}
 }
 
-func TableName(name string) string {
-	return beego.AppConfig.String("db.prefix") + name
-}
-func (this *Base )Finish() {
-	defer func() {
-        if this.session != nil {
-           // mongo.CloseSession(this.UserId, this.session)
-            this.session = nil
-        }
-    }()
+func Finish() {
+	
 
 }

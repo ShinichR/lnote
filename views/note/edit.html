@@ -4,21 +4,21 @@
 	<div class="widget ">
 		<div class="widget-header">
 			<i class="icon-plus"></i>
- 			<h3>添加笔记</h3>
+ 			<h3>编辑笔记</h3>
 		</div> <!-- /widget-header -->
 
 		<div class="widget-content">
 		
 		<div class="alert alert-danger hide" role="alert"></div>
 
-		<form id="add-task" action="{{urlfor "NoteController.Add"}}" method="post" class="form-horizontal">
+		<form id="add-task" action="{{urlfor "NoteController.Edit"}}" method="post" class="form-horizontal">
 			<fieldset>
 				
 								
 				<div class="control-group">											
 					<label class="control-label" for="words">笔记</label>
 					<div class="controls">
-						<textarea name="words" class="span6" id="words" rows="3"></textarea>
+						<textarea name="words" class="span6" id="words" rows="3">{{.note.Words}}</textarea>
 					</div> <!-- /controls -->				
 				</div> <!-- /control-group -->
 				

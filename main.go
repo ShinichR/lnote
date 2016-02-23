@@ -27,9 +27,12 @@ func main() {
 	// 路由设置
 	beego.Router("/", &controllers.MainController{}, "*:Index")
 	beego.Router("/gettime", &controllers.MainController{}, "*:GetTime")
-	//beego.Router("/login", &controllers.MainController{}, "*:Login")
-	//beego.Router("/logout", &controllers.MainController{}, "*:Logout")
+	beego.Router("/login", &controllers.MainController{}, "*:Login")
+    beego.Router("/Signup", &controllers.UserController{}, "*:Signup")
+   // beego.Router("/Signup", &controllers.UserController{}, "*:Signup")
+	beego.Router("/logout", &controllers.MainController{}, "*:Logout")
 	beego.AutoRouter(&controllers.NoteController{})
+   // beego.AutoRouter(&controllers.UserController{})
 	beego.SessionOn = true
 	beego.Run()
 }
